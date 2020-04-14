@@ -1,4 +1,4 @@
-package plateformePFE.models;
+package org.demo.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "DDS")
-public class Directiondesstages {
+public class Directiondesstages extends User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
