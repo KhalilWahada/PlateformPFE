@@ -14,15 +14,49 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	
+	private String code;
+	
+	
+	private String name;
+	
+	
+	private String lastname;
 
-	@NotBlank
-	@Size(max = 20)
-	private String username;
+	
+	
+	
 
-	public User(Long id, @NotBlank @Size(max = 20) String username) {
+	public User( String code, String name, String lastname) {
 		super();
-		this.id = id;
-		this.username = username;
+		this.code = code;
+		this.name = name;
+		this.lastname = lastname;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public User() {
@@ -37,12 +71,6 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	
 	
 }

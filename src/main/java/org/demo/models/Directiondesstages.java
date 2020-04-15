@@ -9,13 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "DDS")
 public class Directiondesstages extends User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	@NotBlank
-	@Size(max = 20)
-	private String username;
+
 
 }

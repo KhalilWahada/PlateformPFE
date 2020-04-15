@@ -7,42 +7,35 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Fiche")
+@Table(name = "FichePfe")
 public class FichePFE {
-	
-	private Long id;
-	private String name;
-
-	public FichePFE() {
-		
-	}
-	
-
-	public FichePFE(String name) {
-		super();
-		this.name = name;
-	}
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	public Long getId() {
-		return id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long idFiche;
+	
+	private boolean asoutenir;
+	private String motifEnseignant;
+	public Long getIdFiche() {
+		return idFiche;
 	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdFiche(Long idFiche) {
+		this.idFiche = idFiche;
 	}
-
-
-	public String getName() {
-		return name;
+	public FichePFE() {
 	}
-
-
-	public void setName(String name) {
-		this.name = name;
+	public boolean isAsoutenir() {
+		return asoutenir;
+	}
+	public void setAsoutenir(boolean asoutenir) {
+		this.asoutenir = asoutenir;
+	}
+	public String getMotifEnseignant() {
+		return motifEnseignant;
+	}
+	public void setMotifEnseignant(String motifEnseignant) {
+		this.motifEnseignant = motifEnseignant;
 	}
 	
-
+	
 
 }
