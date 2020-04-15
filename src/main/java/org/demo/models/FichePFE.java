@@ -1,10 +1,8 @@
 package org.demo.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "FichePfe")
@@ -15,6 +13,40 @@ public class FichePFE {
 	
 	private boolean asoutenir;
 	private String motifEnseignant;
+	@OneToOne(mappedBy = "fiche")
+	private Etudiant etudiant;
+	@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "Technology_Fiche", 
+      joinColumns = @JoinColumn(name = "id_fiche", referencedColumnName = "idFiche"), 
+      inverseJoinColumns = @JoinColumn(name = "id_techno", 
+      referencedColumnName = "id"))
+	private List<Technologies> technologies;
+	@OneToMany(mappedBy = "fichef")
+	private List<Fonctionalite> fonctionalities;
+	@OneToMany(mappedBy = "fichep")
+	private List <Problematique> problematiques;
+	 @ManyToOne
+	 @JoinColumn(name="societe")
+	 private Societe soc;
+	 @ManyToOne
+	 @JoinColumn(name="enc_soc")
+	 private EncadrantSociete esoc;
+	 
+	
+	
+	
+	
+	public FichePFE(boolean asoutenir, String motifEnseignant, Etudiant etudiant) {
+		super();
+		this.asoutenir = asoutenir;
+		this.motifEnseignant = motifEnseignant;
+		this.etudiant = etudiant;
+	}
+	public FichePFE(boolean asoutenir, String motifEnseignant) {
+		super();
+		this.asoutenir = asoutenir;
+		this.motifEnseignant = motifEnseignant;
+	}
 	public Long getIdFiche() {
 		return idFiche;
 	}
@@ -35,6 +67,44 @@ public class FichePFE {
 	public void setMotifEnseignant(String motifEnseignant) {
 		this.motifEnseignant = motifEnseignant;
 	}
+	public Etudiant getEtudiant() {
+		return etudiant;
+	}
+	public void setEtudiant(Etudiant etudiant) {
+		this.etudiant = etudiant;
+	}
+	public List<Technologies> getTechnologies() {
+		return technologies;
+	}
+	public void setTechnologies(List<Technologies> technologies) {
+		this.technologies = technologies;
+	}
+	public List<Fonctionalite> getFonctionalities() {
+		return fonctionalities;
+	}
+	public void setFonctionalities(List<Fonctionalite> fonctionalities) {
+		this.fonctionalities = fonctionalities;
+	}
+	public List<Problematique> getProblematiques() {
+		return problematiques;
+	}
+	public void setProblematiques(List<Problematique> problematiques) {
+		this.problematiques = problematiques;
+	}
+	public Societe getSoc() {
+		return soc;
+	}
+	public void setSoc(Societe soc) {
+		this.soc = soc;
+	}
+	public EncadrantSociete getEsoc() {
+		return esoc;
+	}
+	public void setEsoc(EncadrantSociete esoc) {
+		this.esoc = esoc;
+	}
+	
+	
 	
 	
 

@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Fonctionalite {
@@ -14,6 +16,10 @@ public class Fonctionalite {
 	private String nameFonctionalite;
 	private String description ;
 	private int degree;
+	 @ManyToOne
+	 @JoinColumn(name="fiche_id")
+	 private FichePFE fichef;
+	 
 	public Long getIdFonctionalite() {
 		return idFonctionalite;
 	}
@@ -46,7 +52,14 @@ public class Fonctionalite {
 	}
 	public Fonctionalite() {
 		super();
+	}
+	public FichePFE getFichef() {
+		return fichef;
+	}
+	public void setFichef(FichePFE fichef) {
+		this.fichef = fichef;
 	} 
+	
 	
 
 }

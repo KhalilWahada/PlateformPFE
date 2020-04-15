@@ -1,9 +1,12 @@
 package org.demo.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Societe {
@@ -14,6 +17,9 @@ public class Societe {
 	private String nomSociete;
 	private String emailSociete;
 	private String adresseSociete;
+	@OneToMany(mappedBy = "soc")
+	private List<FichePFE> fiches;
+	
 	public String getNomSociete() {
 		return nomSociete;
 	}
@@ -34,6 +40,18 @@ public class Societe {
 	}
 	public Societe() {
 		super();
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public List<FichePFE> getFiches() {
+		return fiches;
+	}
+	public void setFiches(List<FichePFE> fiches) {
+		this.fiches = fiches;
 	}
 	
 

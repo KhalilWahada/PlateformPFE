@@ -1,6 +1,8 @@
 package org.demo.models;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Etudiant extends User{
@@ -8,6 +10,22 @@ public class Etudiant extends User{
 	private String classe;
 	private boolean authorized;
 	private String newmail;
+	@OneToOne
+    @JoinColumn(name = "fiche_id")
+	private FichePFE fiche;
+	
+	public Etudiant() {
+		super();
+		super.setRole(ERole.Etudiant);
+	}
+	
+	public Etudiant(String classe, boolean authorized) {
+		super();
+		this.classe = classe;
+		this.authorized = authorized;
+		super.setRole(ERole.Etudiant);
+	}
+
 	public String getClasse() {
 		return classe;
 	}
@@ -25,6 +43,14 @@ public class Etudiant extends User{
 	}
 	public void setNewmail(String newmail) {
 		this.newmail = newmail;
+	}
+
+	public FichePFE getFiche() {
+		return fiche;
+	}
+
+	public void setFiche(FichePFE fiche) {
+		this.fiche = fiche;
 	}
 	
 }

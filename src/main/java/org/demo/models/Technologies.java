@@ -1,9 +1,12 @@
 package org.demo.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Technologies {
@@ -19,6 +22,8 @@ public class Technologies {
 	
 	private	String etat;
 
+	@ManyToMany(mappedBy = "technologies")
+	private List<FichePFE> fiches;
 
 	public Long getId() {
 		return id;
@@ -71,6 +76,17 @@ public class Technologies {
 		this.type = type;
 		this.etat = etat;
 	}
+
+
+	public List<FichePFE> getFiches() {
+		return fiches;
+	}
+
+
+	public void setFiches(List<FichePFE> fiches) {
+		this.fiches = fiches;
+	}
+	
 	
 	
 

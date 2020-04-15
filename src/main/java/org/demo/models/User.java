@@ -5,8 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user")
@@ -23,8 +21,13 @@ public class User {
 	
 	
 	private String lastname;
+	
+	private ERole role;
 
 	
+	public User() {
+		super();
+	}
 	
 	
 
@@ -59,9 +62,6 @@ public class User {
 		this.lastname = lastname;
 	}
 
-	public User() {
-		super();
-	}
 
 	public Long getId() {
 		return id;
@@ -71,6 +71,18 @@ public class User {
 		this.id = id;
 	}
 
+
+
+	public ERole getRole() {
+		return role;
+	}
+
+
+
+	public void setRole(ERole role) {
+		this.role = role;
+	}
+	
 	
 	
 }

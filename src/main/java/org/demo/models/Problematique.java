@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Problematique {
@@ -12,6 +14,10 @@ public class Problematique {
 	private Long id;
 	
 	private String nameproblematique;
+	
+	@ManyToOne
+	@JoinColumn(name="fiche_id")
+	private FichePFE fichep;
 
 	public Long getId() {
 		return id;
@@ -37,6 +43,15 @@ public class Problematique {
 		super();
 		this.nameproblematique = nameproblematique;
 	}
+
+	public FichePFE getFichep() {
+		return fichep;
+	}
+
+	public void setFichep(FichePFE fichep) {
+		this.fichep = fichep;
+	}
+	
 	
 
 }
