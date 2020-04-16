@@ -31,11 +31,27 @@ public class FichePFE {
 	 @ManyToOne
 	 @JoinColumn(name="enc_soc")
 	 private EncadrantSociete esoc;
-	 
+	 @ManyToOne
+	 @JoinColumn(name="session")
+	 private Session session;
+	 @OneToOne(mappedBy = "fichesoutenance")
+	 private Soutenance soutenance;
 	
 	
 	
 	
+	public Session getSession() {
+		return session;
+	}
+	public void setSession(Session session) {
+		this.session = session;
+	}
+	public Soutenance getSoutenance() {
+		return soutenance;
+	}
+	public void setSoutenance(Soutenance soutenance) {
+		this.soutenance = soutenance;
+	}
 	public FichePFE(boolean asoutenir, String motifEnseignant, Etudiant etudiant) {
 		super();
 		this.asoutenir = asoutenir;

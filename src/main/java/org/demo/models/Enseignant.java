@@ -29,10 +29,12 @@ public class Enseignant extends User{
 		super(code, name, lastname);
 		this.numberEncadrement = numberEncadrement;
 		this.numberEncadrementT = numberEncadrementT;
+		super.setRole(ERole.Enseignant);
 	}
 
 	public Enseignant() {
 		super();
+		super.setRole(ERole.Enseignant);
 	}
 	
 	

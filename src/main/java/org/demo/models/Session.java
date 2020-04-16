@@ -1,11 +1,13 @@
 package org.demo.models;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Session {
@@ -15,6 +17,14 @@ public class Session {
 	
 	private String nom;
 	private Date dateDebut;
+	@OneToMany(mappedBy = "session")
+	private List<FichePFE> fiches;
+	public List<FichePFE> getFiches() {
+		return fiches;
+	}
+	public void setFiches(List<FichePFE> fiches) {
+		this.fiches = fiches;
+	}
 	public Long getIdSession() {
 		return idSession;
 	}

@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Soutenance {
@@ -16,6 +18,18 @@ public class Soutenance {
 	private Date dateSoutenance;
 	
 	private int duree;
+
+	@OneToOne
+    @JoinColumn(name = "fiche_id")
+	private FichePFE fichesoutenance;
+	
+	public FichePFE getFichesoutenance() {
+		return fichesoutenance;
+	}
+
+	public void setFichesoutenance(FichePFE fichesoutenance) {
+		this.fichesoutenance = fichesoutenance;
+	}
 
 	public Long getId() {
 		return id;
