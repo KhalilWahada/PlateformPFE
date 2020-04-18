@@ -1,17 +1,19 @@
 package org.demo.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.*;
+
 @Entity
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class Etudiant extends User{
 
 	private String classe;
 	private boolean authorized;
 	private String newmail;
-	@OneToOne
-    @JoinColumn(name = "fiche_id")
+	@OneToOne(mappedBy = "etudiant", cascade = CascadeType.ALL)
 	private FichePFE fiche;
 	
 	public Etudiant() {

@@ -4,17 +4,22 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.*;
+
 @Entity
 @Table(name = "FichePfe")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class FichePFE {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idFiche;
-	
+	private String titre;
+	private String description;
 	private boolean asoutenir;
 	private String motifEnseignant;
-	@OneToOne(mappedBy = "fiche")
-	private Etudiant etudiant;
+	@OneToOne
+    @JoinColumn(name = "etudiant_id")
+    private Etudiant etudiant;
 	@ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Technology_Fiche", 
       joinColumns = @JoinColumn(name = "id_fiche", referencedColumnName = "idFiche"), 
@@ -40,6 +45,11 @@ public class FichePFE {
 	
 	
 	
+	public FichePFE(String titre, String description) {
+		super();
+		this.titre = titre;
+		this.description = description;
+	}
 	public Session getSession() {
 		return session;
 	}
@@ -56,6 +66,13 @@ public class FichePFE {
 		super();
 		this.asoutenir = asoutenir;
 		this.motifEnseignant = motifEnseignant;
+		this.etudiant = etudiant;
+	}
+	
+	public FichePFE(String titre, String description, Etudiant etudiant) {
+		super();
+		this.titre = titre;
+		this.description = description;
 		this.etudiant = etudiant;
 	}
 	public FichePFE(boolean asoutenir, String motifEnseignant) {
@@ -118,6 +135,18 @@ public class FichePFE {
 	}
 	public void setEsoc(EncadrantSociete esoc) {
 		this.esoc = esoc;
+	}
+	public String getTitre() {
+		return titre;
+	}
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	
