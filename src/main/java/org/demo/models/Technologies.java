@@ -1,5 +1,6 @@
 package org.demo.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -67,6 +68,7 @@ public class Technologies {
 
 	public Technologies() {
 		super();
+		this.fiches=new ArrayList<FichePFE>();
 	}
 
 
@@ -75,6 +77,7 @@ public class Technologies {
 		this.nametechnologie = nametechnologie;
 		this.type = type;
 		this.etat = etat;
+		this.fiches=new ArrayList<FichePFE>();
 	}
 
 
@@ -85,6 +88,9 @@ public class Technologies {
 
 	public void setFiches(List<FichePFE> fiches) {
 		this.fiches = fiches;
+	}
+	public void setFiche(FichePFE fiche) {
+		this.fiches.add(fiche);
 	}
 	
 	

@@ -1,5 +1,6 @@
 package org.demo.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -49,6 +50,7 @@ public class FichePFE {
 		super();
 		this.titre = titre;
 		this.description = description;
+		this.technologies=new ArrayList<Technologies>();
 	}
 	public Session getSession() {
 		return session;
@@ -67,6 +69,7 @@ public class FichePFE {
 		this.asoutenir = asoutenir;
 		this.motifEnseignant = motifEnseignant;
 		this.etudiant = etudiant;
+		this.technologies=new ArrayList<Technologies>();
 	}
 	
 	public FichePFE(String titre, String description, Etudiant etudiant) {
@@ -74,11 +77,13 @@ public class FichePFE {
 		this.titre = titre;
 		this.description = description;
 		this.etudiant = etudiant;
+		this.technologies=new ArrayList<Technologies>();
 	}
 	public FichePFE(boolean asoutenir, String motifEnseignant) {
 		super();
 		this.asoutenir = asoutenir;
 		this.motifEnseignant = motifEnseignant;
+		this.technologies=new ArrayList<Technologies>();
 	}
 	public Long getIdFiche() {
 		return idFiche;
@@ -149,7 +154,9 @@ public class FichePFE {
 		this.description = description;
 	}
 	
-	
+	public void setTechnologie(Technologies technologie) {
+		this.technologies.add(technologie);
+	}
 	
 	
 

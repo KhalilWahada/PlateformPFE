@@ -1,5 +1,6 @@
 package org.demo.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,6 +21,24 @@ public class Societe {
 	@OneToMany(mappedBy = "soc")
 	private List<FichePFE> fiches;
 	
+	public Societe(String nomSociete) {
+		
+		super();
+		this.fiches=new ArrayList<FichePFE>();
+		this.nomSociete = nomSociete;
+	}
+	public Societe() {
+		super();
+		this.fiches=new ArrayList<FichePFE>();
+	}
+	public Societe(Long id, String nomSociete, String emailSociete, String adresseSociete, List<FichePFE> fiches) {
+		super();
+		this.id = id;
+		this.nomSociete = nomSociete;
+		this.emailSociete = emailSociete;
+		this.adresseSociete = adresseSociete;
+		this.fiches = fiches;
+	}
 	public String getNomSociete() {
 		return nomSociete;
 	}
@@ -38,9 +57,6 @@ public class Societe {
 	public void setAdresseSociete(String adresseSociete) {
 		this.adresseSociete = adresseSociete;
 	}
-	public Societe() {
-		super();
-	}
 	public Long getId() {
 		return id;
 	}
@@ -52,6 +68,9 @@ public class Societe {
 	}
 	public void setFiches(List<FichePFE> fiches) {
 		this.fiches = fiches;
+	}
+	public void setFiche(FichePFE fiche) {
+		this.fiches.add(fiche);
 	}
 	
 

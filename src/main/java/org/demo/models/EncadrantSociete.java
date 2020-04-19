@@ -1,5 +1,6 @@
 package org.demo.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -7,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-
 @Entity
 public class EncadrantSociete {
 	@Id
@@ -20,6 +20,7 @@ public class EncadrantSociete {
 	private List<FichePFE> fiches;
 	public EncadrantSociete() {
 		super();
+		this.fiches=new ArrayList<FichePFE>();
 	}
 	public EncadrantSociete(Long id, String name, String last_name, String email, List<FichePFE> fiches) {
 		super();
@@ -59,7 +60,9 @@ public class EncadrantSociete {
 	public void setFiches(List<FichePFE> fiches) {
 		this.fiches = fiches;
 	}
-	
+	public void setFiche(FichePFE fiche) {
+		this.fiches.add(fiche);
+	}
 	
 
 }
