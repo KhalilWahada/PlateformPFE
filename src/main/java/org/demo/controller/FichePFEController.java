@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.demo.models.EncadrantSociete;
 import org.demo.models.Etudiant;
 import org.demo.models.FichePFE;
 import org.demo.repository.EtudiantRepository;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,5 +45,14 @@ public class FichePFEController {
 	public List<Etudiant> listEtudiant() {
 	return etudiantrep.findAll();	
 	}	
+	@PutMapping("/update")
+	public Object updatef(@Valid @RequestBody FichePFE fiche) {
+		FichePFE f = etudiantrep.findById(1).getFiche();
+		f.setTitre(fiche.getTitre());
+		f.setDescription(fiche.getDescription());
+		ficherep.save(f);
+		return f;
+	}
+	
 	
 }

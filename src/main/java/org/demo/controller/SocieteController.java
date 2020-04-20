@@ -13,6 +13,7 @@ import org.demo.repository.SocieteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,4 +40,14 @@ public class SocieteController {
     ficherep.save(f);    
     return soc;	
 	}
+	@PutMapping("/update")
+	public Object updatef(@Valid @RequestBody Societe soc) {
+		Societe s = etudiantrep.findById(1).getFiche().getSoc();
+		s.setNomSociete(soc.getNomSociete());
+		s.setEmailSociete(soc.getEmailSociete());
+		s.setAdresseSociete(soc.getAdresseSociete());
+		socrep.save(s);
+		return s;
+	}
+
 }

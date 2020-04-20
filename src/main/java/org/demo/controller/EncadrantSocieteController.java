@@ -11,9 +11,11 @@ import org.demo.repository.FichePFERepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
@@ -37,4 +39,15 @@ public class EncadrantSocieteController {
     ficherep.save(f);    
     return esoc;	
 	}
+	@PutMapping("/update")
+	public Object updateES(@Valid @RequestBody EncadrantSociete esoc) {
+		EncadrantSociete es = etudiantrep.findById(1).getFiche().getEsoc();
+		es.setEmail(esoc.getEmail());
+		es.setName(esoc.getName());
+		es.setLast_name(esoc.getLast_name());
+		esocrep.save(es);
+		return es;
+	}
+	
+	
 }
