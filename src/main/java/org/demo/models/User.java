@@ -16,13 +16,14 @@ public class User {
 	
 	private String code;
 	
+	private String Email;
+	
+	private String CIN;
 	
 	private String name;
 	
 	
 	private String lastname;
-	
-	private ERole role;
 
 	
 	public User() {
@@ -30,6 +31,17 @@ public class User {
 	}
 	
 	
+
+	public User(String code, String email, String cIN, String name, String lastname) {
+		super();
+		this.code = code;
+		Email = email;
+		CIN = cIN;
+		this.name = name;
+		this.lastname = lastname;
+	}
+
+
 
 	public User( String code, String name, String lastname) {
 		super();
@@ -73,15 +85,31 @@ public class User {
 
 
 
-	public ERole getRole() {
-		return role;
+	public String getEmail() {
+		return Email;
 	}
 
 
 
-	public void setRole(ERole role) {
-		this.role = role;
+	public void setEmail(String email) {
+		Email = email;
 	}
+
+
+
+	public String getCIN() {
+		return CIN;
+	}
+
+
+
+	public void setCIN(String cIN) {
+		CIN = cIN;
+	}
+
+
+
+	
 	
 	
 	

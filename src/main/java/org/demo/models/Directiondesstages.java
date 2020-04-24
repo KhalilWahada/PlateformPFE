@@ -7,8 +7,7 @@ import javax.persistence.Entity;
 public class Directiondesstages extends User {
 
 	public Directiondesstages() {
-		super();
-		super.setRole(ERole.DDS);
+
 	}
 
 

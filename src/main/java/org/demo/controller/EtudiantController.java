@@ -6,6 +6,7 @@ import org.demo.models.Etudiant;
 import org.demo.repository.EtudiantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/etud")
 public class EtudiantController {
+
+	 @GetMapping("/user")
+	    public String user() {
+	        return ("<h1>Welcome User</h1>");
+	    }
 
 	@Autowired
 	private EtudiantRepository etudiantrep;

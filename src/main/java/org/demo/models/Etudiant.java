@@ -18,14 +18,13 @@ public class Etudiant extends User{
 	
 	public Etudiant() {
 		super();
-		super.setRole(ERole.Etudiant);
+		
 	}
 	
 	public Etudiant(String classe, boolean authorized) {
 		super();
 		this.classe = classe;
 		this.authorized = authorized;
-		super.setRole(ERole.Etudiant);
 	}
 
 	public String getClasse() {
