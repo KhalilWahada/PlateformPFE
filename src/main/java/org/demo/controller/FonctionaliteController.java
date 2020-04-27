@@ -7,6 +7,8 @@ import org.demo.models.Fonctionalite;
 import org.demo.repository.EtudiantRepository;
 import org.demo.repository.FonctionaliteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -24,7 +26,9 @@ public class FonctionaliteController {
 	private FonctionaliteRepository fonrep;
 	@PostMapping("/create")
 	public Object createFoct(@Valid @RequestBody Fonctionalite fonc ) {
-    Etudiant et = etudiantrep.findById(1);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Etudiant et = etudiantrep.findByCode(auth.getName());
+
     fonc.setFichef(et.getFiche());
     return fonrep.save(fonc);	
 	}

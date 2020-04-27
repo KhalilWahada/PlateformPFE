@@ -4,12 +4,13 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.demo.models.EncadrantSociete;
 import org.demo.models.Etudiant;
 import org.demo.models.FichePFE;
 import org.demo.repository.EtudiantRepository;
 import org.demo.repository.FichePFERepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,8 @@ public class FichePFEController {
 	///////////////Post/////////////////////
 	@PostMapping("/create")
 	public Object createFiche(@Valid @RequestBody FichePFE fiche ) {
-    Etudiant et = etudiantrep.findById(1);
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Etudiant et = etudiantrep.findByCode(auth.getName());
     fiche.setEtudiant(et);
     return ficherep.save(fiche);	
 	}
@@ -47,7 +49,10 @@ public class FichePFEController {
 	}	
 	@PutMapping("/update")
 	public Object updatef(@Valid @RequestBody FichePFE fiche) {
-		FichePFE f = etudiantrep.findById(1).getFiche();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Etudiant et = etudiantrep.findByCode(auth.getName());
+
+		FichePFE f = et.getFiche();
 		f.setTitre(fiche.getTitre());
 		f.setDescription(fiche.getDescription());
 		ficherep.save(f);

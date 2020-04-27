@@ -9,6 +9,8 @@ import org.demo.repository.EtudiantRepository;
 import org.demo.repository.FichePFERepository;
 import org.demo.repository.TechnologiesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +29,9 @@ public class TechnologiesController {
 	private FichePFERepository ficherep;
 	@PostMapping("/create")
 	public Object createtech(@Valid @RequestBody Technologies tec ) {
-    Etudiant et = etudiantrep.findById(1);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Etudiant et = etudiantrep.findByCode(auth.getName());
+
     FichePFE f= et.getFiche();
     //List<FichePFE> hh=new ArrayList<FichePFE>();
     //hh.add(f);

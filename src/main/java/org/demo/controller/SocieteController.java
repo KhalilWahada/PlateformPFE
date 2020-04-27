@@ -11,6 +11,8 @@ import org.demo.repository.EtudiantRepository;
 import org.demo.repository.FichePFERepository;
 import org.demo.repository.SocieteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,7 +32,9 @@ public class SocieteController {
 	private FichePFERepository ficherep;
 	@PostMapping("/create")
 	public Object createSoc(@Valid @RequestBody Societe soc ) {
-    Etudiant et = etudiantrep.findById(1);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Etudiant et = etudiantrep.findByCode(auth.getName());
+
     FichePFE f= et.getFiche();
     //List<FichePFE> hh=new ArrayList<FichePFE>();
     //hh.add(f);
@@ -42,7 +46,10 @@ public class SocieteController {
 	}
 	@PutMapping("/update")
 	public Object updatef(@Valid @RequestBody Societe soc) {
-		Societe s = etudiantrep.findById(1).getFiche().getSoc();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Etudiant et = etudiantrep.findByCode(auth.getName());
+
+		Societe s = et.getFiche().getSoc();
 		s.setNomSociete(soc.getNomSociete());
 		s.setEmailSociete(soc.getEmailSociete());
 		s.setAdresseSociete(soc.getAdresseSociete());

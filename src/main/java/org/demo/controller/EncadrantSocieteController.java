@@ -9,6 +9,8 @@ import org.demo.repository.EncadrantSocieteRepository;
 import org.demo.repository.EtudiantRepository;
 import org.demo.repository.FichePFERepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,7 +31,9 @@ public class EncadrantSocieteController {
 	private FichePFERepository ficherep;
 	@PostMapping("/create")
 	public Object createESoc(@Valid @RequestBody EncadrantSociete esoc ) {
-    Etudiant et = etudiantrep.findById(1);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Etudiant et = etudiantrep.findByCode(auth.getName());
+
     FichePFE f= et.getFiche();
     //List<FichePFE> hh=new ArrayList<FichePFE>();
     //hh.add(f);
@@ -41,7 +45,9 @@ public class EncadrantSocieteController {
 	}
 	@PutMapping("/update")
 	public Object updateES(@Valid @RequestBody EncadrantSociete esoc) {
-		EncadrantSociete es = etudiantrep.findById(1).getFiche().getEsoc();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Etudiant et = etudiantrep.findByCode(auth.getName());
+		EncadrantSociete es = et.getFiche().getEsoc();
 		es.setEmail(esoc.getEmail());
 		es.setName(esoc.getName());
 		es.setLast_name(esoc.getLast_name());
