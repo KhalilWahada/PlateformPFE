@@ -1,6 +1,8 @@
 package org.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -20,6 +22,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 
 
@@ -43,7 +47,7 @@ public class DDSController {
 	@Autowired
 	private EnseignantRepository enseignantrep;
 	
-	///////////////////
+	///////////////////creation de test
 	@PostMapping("/test")
 	public Object test() {
 		FichePFE fiche=new FichePFE();
@@ -53,19 +57,16 @@ public class DDSController {
 		enseignantrep.save(E);
     return ficherep.save(fiche);	
 	}
-	/*/////////////////
+	/*////////////////
 	@PutMapping("/validation/{idfiche}")
 	public void validationfiche(@PathVariable(value = "idfiche") Long ficheId)
 			throws ResourceNotFoundException  {
 			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 			fiche.setMotifEnseignant("VALIDER PAR DDS");
 			ficherep.save(fiche);
-			Enseignant E=new Enseignant();
-			E.setName("TEST");
-		enseignantrep.save(E);
 	}
-		//////*/
-	/////////
+		/////*/
+	/////////mailing
 	@Autowired
     public JavaMailSender emailSender;
 	@GetMapping("/send")
@@ -82,17 +83,42 @@ public class DDSController {
         emailSender.send(message);
         
     }
-	////////
+	////////validation et affectation
 	@PutMapping("/validation/{idfiche}/affectation/{idprof}")
 	public Object affectationprof (@PathVariable(value = "idfiche") Long ficheId,@PathVariable(value = "idprof") Long profId)throws ResourceNotFoundException  {
 			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 			Enseignant enseignant = enseignantrep.findById(profId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 			fiche.setEnseignant(enseignant);
 			fiche.setStatus("VALIDER_PAR_DDS");
-			this.sendSimpleMessage("khalil.wahada@esprit.tn");
+			//this.sendSimpleMessage("khalil.wahada@esprit.tn");
 			this.sendSimpleMessage("irad.amri@esprit.tn");
 			return ficherep.save(fiche);						
 	}
-	////////////////////
-	
-}
+	////////////////////refus
+	@PutMapping("/refus/{idfiche}")
+	public Object refus (@PathVariable(value = "idfiche") Long ficheId)throws ResourceNotFoundException  {
+			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
+			fiche.setStatus("REFUSER_PAR_DDS");
+			//this.sendSimpleMessage("khalil.wahada@esprit.tn");
+			this.sendSimpleMessage("irad.amri@esprit.tn");
+			return ficherep.save(fiche);						
+	}
+	////////////////////refus
+	@PutMapping("/anuulation/{idfiche}")
+	public Object Annulation (@PathVariable(value = "idfiche") Long ficheId)throws ResourceNotFoundException  {
+			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
+			fiche.setStatus("PFE_ANNULER");
+			//this.sendSimpleMessage("khalil.wahada@esprit.tn");
+			this.sendSimpleMessage("irad.amri@esprit.tn");
+			return ficherep.save(fiche);	
+	}
+	////////////////////suppression
+	@DeleteMapping("/delete/{idfiche}")
+	public Map<String, Boolean> deletefiche (@PathVariable(value = "idfiche") Long ficheId)throws ResourceNotFoundException  {
+		FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
+		ficherep.delete(fiche);
+		Map<String, Boolean> response = new HashMap<>();
+		response.put("deleted", Boolean.TRUE);
+		return response;
+	}
+	}
