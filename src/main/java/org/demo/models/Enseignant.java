@@ -1,13 +1,38 @@
 package org.demo.models;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.List;
+
 
 @Entity
 public class Enseignant extends User{
 	
+	@OneToMany(mappedBy = "enseignant")
+	private List<FichePFE> fiches;
+	
 	private int numberEncadrement;
 	
 	private int numberEncadrementT;
+	
+	private boolean isactive ;
+	
+
+	public List<FichePFE> getFiches() {
+		return fiches;
+	}
+
+	public void setFiches(List<FichePFE> fiches) {
+		this.fiches = fiches;
+	}
+
+	public boolean isIsactive() {
+		return isactive;
+	}
+
+	public void setIsactive(boolean isactive) {
+		this.isactive = isactive;
+	}
 
 	public int getNumberEncadrement() {
 		return numberEncadrement;
@@ -29,11 +54,14 @@ public class Enseignant extends User{
 		super(code, name, lastname);
 		this.numberEncadrement = numberEncadrement;
 		this.numberEncadrementT = numberEncadrementT;
-		
+		this.isactive = true ;
+
 	}
 
 	public Enseignant() {
 		super();
+		this.isactive = true ;
+		
 		
 	}
 	

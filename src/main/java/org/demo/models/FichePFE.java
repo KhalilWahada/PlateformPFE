@@ -18,6 +18,14 @@ public class FichePFE {
 	private String description;
 	private boolean asoutenir;
 	private String motifEnseignant;
+	private String Status;
+
+	public String getStatus() {
+		return Status;
+	}
+	public void setStatus(String status) {
+		Status = status;
+	}
 	@OneToOne
     @JoinColumn(name = "etudiant_id")
     private Etudiant etudiant;
@@ -42,7 +50,9 @@ public class FichePFE {
 	 private Session session;
 	 @OneToOne(mappedBy = "fichesoutenance")
 	 private Soutenance soutenance;
-	
+	 @ManyToOne
+	 @JoinColumn(name="encadrant_scolaire")
+	 private Enseignant enseignant;
 	
 	
 	
@@ -157,7 +167,12 @@ public class FichePFE {
 	public void setTechnologie(Technologies technologie) {
 		this.technologies.add(technologie);
 	}
-	
+	 public Enseignant getEnseignant() {
+		return enseignant;
+	}
+	public void setEnseignant(Enseignant enseignant) {
+		this.enseignant = enseignant;
+	}
 	
 
 }
