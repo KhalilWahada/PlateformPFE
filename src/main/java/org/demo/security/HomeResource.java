@@ -1,11 +1,10 @@
-package org.demo.controller;
+package org.demo.security;
 
-import java.util.Optional;
+
 
 import org.demo.models.Etudiant;
-import org.demo.models.User;
+
 import org.demo.repository.EtudiantRepository;
-import org.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HomeResource {
-	@Autowired
-    private UserRepository ur;
+//	@Autowired
+//    private UserRepository ur;
 	@Autowired
     private EtudiantRepository er;
-    @GetMapping("/dddd")
+    @GetMapping("/")
     public String home() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String c =auth.getName();        
@@ -29,7 +28,7 @@ public class HomeResource {
     @GetMapping("/etud")
     public String user() {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String c =auth.getName();
+     //   String c =auth.getName();
         Etudiant et = er.findByCode(auth.getName());
         
         return (et.getEmail()+"<h1>Welcome student</h1>");

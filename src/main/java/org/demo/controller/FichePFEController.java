@@ -38,6 +38,13 @@ public class FichePFEController {
     fiche.setEtudiant(et);
     return ficherep.save(fiche);	
 	}
+	@PostMapping("/test")
+	public Object createFich(@Valid @RequestBody FichePFE fiche ) {
+    //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    Etudiant et = etudiantrep.findById(1);
+    fiche.setEtudiant(et);
+    return ficherep.save(fiche);	
+	}
 	///////////////Get/////////////////////
 	@GetMapping("/etudiant/fiche")
 	public List<FichePFE> listFiche() {

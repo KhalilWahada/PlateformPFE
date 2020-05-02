@@ -15,6 +15,8 @@ public class Etudiant extends User{
 	private String newmail;
 	@OneToOne(mappedBy = "etudiant", cascade = CascadeType.ALL)
 	private FichePFE fiche;
+	@OneToOne(mappedBy = "etudiant", cascade = CascadeType.ALL)
+	private Convention conv;
 	
 	public Etudiant() {
 		super();

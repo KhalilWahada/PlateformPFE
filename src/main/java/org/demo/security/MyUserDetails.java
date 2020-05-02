@@ -1,16 +1,25 @@
-package org.demo.models;
+package org.demo.security;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.demo.models.Administrateur;
+import org.demo.models.Directiondesstages;
+import org.demo.models.Enseignant;
+import org.demo.models.Etudiant;
+import org.demo.models.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class MyUserDetails implements UserDetails{
 
-	    private String userName;
+	    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+		private String userName;
 	    private String password;
 	  //  private boolean active;
 	    private List<GrantedAuthority> authorities;

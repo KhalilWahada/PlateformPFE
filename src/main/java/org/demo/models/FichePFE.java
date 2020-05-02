@@ -29,6 +29,7 @@ public class FichePFE {
 	@OneToOne
     @JoinColumn(name = "etudiant_id")
     private Etudiant etudiant;
+	
 	@ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "Technology_Fiche", 
       joinColumns = @JoinColumn(name = "id_fiche", referencedColumnName = "idFiche"), 

@@ -1,4 +1,4 @@
-package org.demo.controller;
+package org.demo.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -26,12 +26,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	        http.authorizeRequests()
 	                .antMatchers("/admin/**").hasRole("ADMIN")
 	                .antMatchers("/etud/**").hasRole("ETUDIANT")
-	                //.antMatchers("/dds/**").hasRole("DDS")
+	                .antMatchers("/dds/**").hasRole("DDS")
 	                .antMatchers("/ens/**").hasRole("ENS")
-	                .antMatchers("/**").permitAll()
-	                .and().formLogin()
-	                .and().csrf().disable()
-	                ;
+	                .antMatchers("/").permitAll()
+	                .and().httpBasic()
+	                //.and().formLogin()
+	                .and().csrf().disable();
 	    }
 
 	    @Bean

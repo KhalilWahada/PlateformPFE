@@ -1,8 +1,7 @@
-package org.demo.controller;
+package org.demo.security;
 
 import java.util.Optional;
 
-import org.demo.models.MyUserDetails;
 import org.demo.models.User;
 import org.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
