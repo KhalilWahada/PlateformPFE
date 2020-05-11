@@ -54,7 +54,8 @@ public class FichePFE {
 	 @ManyToOne
 	 @JoinColumn(name="encadrant_scolaire")
 	 private Enseignant enseignant;
-	
+	 @OneToOne(mappedBy = "fiche", cascade = CascadeType.ALL)
+	 private AnnulationModifFiche amf;
 	
 	
 	public FichePFE(String titre, String description) {
@@ -174,6 +175,13 @@ public class FichePFE {
 	public void setEnseignant(Enseignant enseignant) {
 		this.enseignant = enseignant;
 	}
+	public AnnulationModifFiche getAmf() {
+		return amf;
+	}
+	public void setAmf(AnnulationModifFiche amf) {
+		this.amf = amf;
+	}
+	
 	
 
 }

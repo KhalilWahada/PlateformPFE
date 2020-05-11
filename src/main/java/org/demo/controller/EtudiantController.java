@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.demo.models.AnnulationModifFiche;
 import org.demo.models.Convention;
 import org.demo.models.Etudiant;
 import org.demo.models.FichePFE;
@@ -11,6 +12,7 @@ import org.demo.models.Fonctionalite;
 import org.demo.models.Problematique;
 import org.demo.models.Societe;
 import org.demo.models.Technologies;
+import org.demo.repository.AnnulationModifFicheRepository;
 import org.demo.repository.ConventionRepository;
 import org.demo.repository.EtudiantRepository;
 import org.demo.repository.FichePFERepository;
@@ -55,6 +57,9 @@ public class EtudiantController {
 	
 	@Autowired
 	private ConventionRepository conrep;
+	
+	@Autowired
+	private AnnulationModifFicheRepository amfrep;
 	
 	
 	
@@ -176,5 +181,22 @@ public class EtudiantController {
 		    conv.setEtudiant(et);
 		    return conrep.save(conv);	
 			}
+		 
+	///////////////AnnulationModifFiche/////////////////////
+		 
+		 
+		 @PostMapping("/createamf")
+			public Object createAnn(@Valid @RequestBody AnnulationModifFiche amf ) {
+		    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    Etudiant et = etudiantrep.findByCode(auth.getName());
+		    amf.setFiche(et.getFiche());		    
+		    return amfrep.save(amf);	
+			}
+		 
+		 
+		 
+		 
+		 
+		 
 }
 
