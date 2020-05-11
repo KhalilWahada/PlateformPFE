@@ -91,15 +91,35 @@ public class DDSController {
         emailSender.send(message);
         
     }
+	
 	////////validation et affectation
 	@PutMapping("/validation/{idfiche}/affectation/{idprof}")
 	public Object affectationprof (@PathVariable(value = "idfiche") Long ficheId,@PathVariable(value = "idprof") Long profId)throws ResourceNotFoundException  {
 			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 			Enseignant enseignant = enseignantrep.findById(profId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 			fiche.setEnseignant(enseignant);
+			enseignant.setNumberEncadrement(enseignant.getNumberEncadrement() + 1);
 			fiche.setStatus("VALIDER_PAR_DDS");
 			this.sendSimpleMessage("irad.amri@esprit.tn");
 			//this.sendSimpleMessage(fiche.getEtudiant().getEmail());
+			return ficherep.save(fiche);						
+	}
+	////////////////////validation
+	@PutMapping("/validation/{idfiche}")
+	public Object valider (@PathVariable(value = "idfiche") Long ficheId)throws ResourceNotFoundException  {
+			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
+			fiche.setStatus("VALIDER_PAR_DDS");
+			//this.sendSimpleMessage("khalil.wahada@esprit.tn");
+			this.sendSimpleMessage("irad.amri@esprit.tn");
+			return ficherep.save(fiche);						
+	}
+	////////////////////ouvririu modification
+	@PutMapping("/demande/{idfiche}")
+	public Object Omod (@PathVariable(value = "idfiche") Long ficheId)throws ResourceNotFoundException  {
+			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
+			fiche.setStatus("attent du modification");
+			//this.sendSimpleMessage("khalil.wahada@esprit.tn");
+			this.sendSimpleMessage("irad.amri@esprit.tn");
 			return ficherep.save(fiche);						
 	}
 	////////////////////refus
@@ -111,8 +131,8 @@ public class DDSController {
 			this.sendSimpleMessage("irad.amri@esprit.tn");
 			return ficherep.save(fiche);						
 	}
-	////////////////////refus
-	@PutMapping("/anuulation/{idfiche}")
+	////////////////////annulation
+	@PutMapping("/annulation/{idfiche}")
 	public Object Annulation (@PathVariable(value = "idfiche") Long ficheId)throws ResourceNotFoundException  {
 			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 			fiche.setStatus("PFE_ANNULER");
@@ -139,7 +159,7 @@ public class DDSController {
 	public Object depot (@PathVariable(value = "idfiche") Long ficheId)throws ResourceNotFoundException  {
 			FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 			fiche.setStatus("Dossier_deposer");
-			// Sessionrelie a fiche PFE
+			// Sessionrelie a fiche PFE affecter session 
 			//this.sendSimpleMessage("khalil.wahada@esprit.tn");
 			this.sendSimpleMessage("irad.amri@esprit.tn");
 			return ficherep.save(fiche);						
