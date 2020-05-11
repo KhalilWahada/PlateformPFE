@@ -99,9 +99,11 @@ public class DDSController {
 			Enseignant enseignant = enseignantrep.findById(profId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 			fiche.setEnseignant(enseignant);
 			enseignant.setNumberEncadrement(enseignant.getNumberEncadrement() + 1);
+			enseignantrep.save(enseignant);
 			fiche.setStatus("VALIDER_PAR_DDS");
 			this.sendSimpleMessage("irad.amri@esprit.tn");
 			//this.sendSimpleMessage(fiche.getEtudiant().getEmail());
+			
 			return ficherep.save(fiche);						
 	}
 	////////////////////validation
@@ -145,6 +147,9 @@ public class DDSController {
 	public Map<String, Boolean> deletefiche (@PathVariable(value = "idfiche") Long ficheId)throws ResourceNotFoundException  {
 		FichePFE fiche = ficherep.findById(ficheId).orElseThrow(() -> new ResourceNotFoundException("not found "));
 		ficherep.delete(fiche);
+		Enseignant enseignant =fiche.getEnseignant();
+		enseignant.setNumberEncadrement(enseignant.getNumberEncadrement() - 1);
+		enseignantrep.save(enseignant);
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return response;
