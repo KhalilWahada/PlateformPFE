@@ -41,8 +41,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 
-
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/dds")
 public class DDSController {
@@ -157,7 +156,11 @@ public class DDSController {
 	////////////add session///
 	@PostMapping("/session/create")
 	public Object createsession(@Valid @RequestBody Session session ) {
-			return sessionrep.save(session);	
+			Session S=new Session();
+			S.setNom(session.getNom());
+			S.setDateDebut(session.getDateDebut());
+			
+			return sessionrep.save(S);	
 	}
 	////////////depot dossier pfe
 	@PutMapping("/session/depot/{idfiche}")
