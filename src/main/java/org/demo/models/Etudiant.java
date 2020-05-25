@@ -55,5 +55,14 @@ public class Etudiant extends User{
 	public void setFiche(FichePFE fiche) {
 		this.fiche = fiche;
 	}
+
+	public Convention getConv() {
+		return conv;
+	}
+
+	public void setConv(Convention conv) {
+		this.conv = conv;
+	}
+	
 	
 }

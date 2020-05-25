@@ -1,6 +1,7 @@
 package org.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -12,6 +13,8 @@ import org.demo.models.Fonctionalite;
 import org.demo.models.Problematique;
 import org.demo.models.Societe;
 import org.demo.models.Technologies;
+import org.demo.models.Test;
+import org.demo.models.User;
 import org.demo.repository.AnnulationModifFicheRepository;
 import org.demo.repository.ConventionRepository;
 import org.demo.repository.EtudiantRepository;
@@ -20,7 +23,10 @@ import org.demo.repository.FonctionaliteRepository;
 import org.demo.repository.ProblematiqueRepository;
 import org.demo.repository.SocieteRepository;
 import org.demo.repository.TechnologiesRepository;
+import org.demo.repository.UserRepository;
+import org.demo.security.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,7 +38,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+import org.demo.exception.ResourceNotFoundException;
+
+
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/etud")
 public class EtudiantController {
@@ -61,6 +70,9 @@ public class EtudiantController {
 	@Autowired
 	private AnnulationModifFicheRepository amfrep;
 	
+	@Autowired
+	private UserRepository userrep;
+	
 	
 	
 	///////////////etudiant/////////////////////
@@ -85,11 +97,28 @@ public class EtudiantController {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    Etudiant et = etudiantrep.findByCode(auth.getName());
 	    fiche.setEtudiant(et);
+	    fiche.setStatus("deposed");
+	    return ficherep.save(fiche);	
+		}
+	    @PostMapping("/savefiche")
+		public Object saveFiche(@Valid @RequestBody FichePFE fiche ) {
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    Etudiant et = etudiantrep.findByCode(auth.getName());
+	    fiche.setEtudiant(et);
+	    fiche.setStatus("saved");
 	    return ficherep.save(fiche);	
 		}
 		@GetMapping("/listfiche")
 		public List<FichePFE> listFiche() {
 	    return ficherep.findAll();	
+		}	
+		@GetMapping("/getfiche")
+		public FichePFE Fiche() {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    Etudiant et = etudiantrep.findByCode(auth.getName());
+
+			FichePFE f = et.getFiche();
+			return f;
 		}	
 		@PutMapping("/updatefiche")
 		public Object updatef(@Valid @RequestBody FichePFE fiche) {
@@ -99,6 +128,18 @@ public class EtudiantController {
 			FichePFE f = et.getFiche();
 			f.setTitre(fiche.getTitre());
 			f.setDescription(fiche.getDescription());
+			ficherep.save(f);
+			return f;
+		}
+		@PutMapping("/updatefichedep")
+		public Object updatefdep(@Valid @RequestBody FichePFE fiche) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    Etudiant et = etudiantrep.findByCode(auth.getName());
+
+			FichePFE f = et.getFiche();
+			f.setTitre(fiche.getTitre());
+			f.setDescription(fiche.getDescription());
+			f.setStatus("deposed");
 			ficherep.save(f);
 			return f;
 		}
@@ -181,6 +222,34 @@ public class EtudiantController {
 		    conv.setEtudiant(et);
 		    return conrep.save(conv);	
 			}
+/*		 @PostMapping("/createcontest")
+			public Object createCons(@Valid @RequestBody Convention conv ) {
+		    //Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    Etudiant et = etudiantrep.findByCode("173JMT0993");
+		    conv.setEtudiant(et);
+		    return conrep.save(conv);	
+			}*/
+		  @GetMapping("/exist")
+		    public Object cc() {
+			  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			  Etudiant et = etudiantrep.findByCode(auth.getName());
+			  Test t = new Test(false,"f");
+			  if(et.getConv()!= null) {
+				  t.setTest(true);
+				  t.setD("t");
+			  }
+				 
+			  return t;
+				 
+		    }
+		  @GetMapping("/getcon")
+			public ResponseEntity<Convention> getEmployeeById()
+					throws ResourceNotFoundException {
+			  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			  Etudiant et = etudiantrep.findByCode(auth.getName());
+				Convention c = et.getConv();
+				return ResponseEntity.ok().body(c);
+			}
 		 
 	///////////////AnnulationModifFiche/////////////////////
 		 
@@ -192,11 +261,25 @@ public class EtudiantController {
 		    amf.setFiche(et.getFiche());		    
 		    return amfrep.save(amf);	
 			}
+
 		 
+	///////////////Auth/////////////////////
 		 
+		 @PostMapping("/signin")
+			public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+			 Optional<User> et = userrep.findByCode(loginRequest.getUsername());
+			 if(et.get().getCIN().equals(loginRequest.getPassword())) {
+				return ResponseEntity.ok(new User(et.get().getId(),
+												  et.get().getCode(),
+											   	  et.get().getName(),
+												  et.get().getLastname()));
+			}
+			 
+			 return ResponseEntity.status(400).body("wrong password");		
+		 
+		 }
 		 
 		 
 		 
 		 
 }
-

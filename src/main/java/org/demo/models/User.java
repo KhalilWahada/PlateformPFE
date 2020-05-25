@@ -32,6 +32,16 @@ public class User {
 	
 	
 
+	public User(Long id, String code, String name, String lastname) {
+		super();
+		this.id = id;
+		this.code = code;
+		this.name = name;
+		this.lastname = lastname;
+	}
+
+
+
 	public User(String code, String email, String cIN, String name, String lastname) {
 		super();
 		this.code = code;
