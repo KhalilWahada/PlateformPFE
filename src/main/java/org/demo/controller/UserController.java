@@ -1,14 +1,21 @@
 package org.demo.controller;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.demo.models.Administrateur;
+import org.demo.models.Directiondesstages;
+import org.demo.models.Enseignant;
+import org.demo.models.Etudiant;
 import org.demo.models.User;
 import org.demo.repository.UserRepository;
+import org.demo.security.CurrentUser;
 import org.demo.security.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,11 +30,21 @@ public class UserController {
 	 @PostMapping("/login")
 		public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		 Optional<User> et = userrep.findByCode(loginRequest.getUsername());
+		 String role="";
 		 if(et.get().getCIN().equals(loginRequest.getPassword())) {
-			return ResponseEntity.ok(new User(et.get().getId(),
+			 if (et.get() instanceof Etudiant)
+					role=("etudiant");
+				if (et.get() instanceof Administrateur)
+					role=("administrateur");
+				if (et.get() instanceof Enseignant)
+					role=("enseignant");
+				if (et.get() instanceof Directiondesstages)
+					role=("direction de stage");
+			return ResponseEntity.ok(new CurrentUser(et.get().getId(),
 											  et.get().getCode(),
 										   	  et.get().getName(),
-											  et.get().getLastname()));
+											  et.get().getLastname(),
+											  role));
 		}
 		 
 		 return ResponseEntity.status(400).body("wrong password");		
