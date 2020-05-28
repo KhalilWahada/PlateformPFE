@@ -26,8 +26,14 @@ public class MyUserDetails implements UserDetails{
 	    
 	public MyUserDetails(User user) {
 			super();
+			
 			this.userName = user.getCode();
+			
+			if(user.getPassword()== null)
 			this.password = user.getCIN();
+			else
+			this.password = user.getPassword();
+			
 			if (user instanceof Etudiant)
 				this.authorities = Arrays.asList(new SimpleGrantedAuthority("ROLE_ETUDIANT"));
 			if (user instanceof Administrateur)

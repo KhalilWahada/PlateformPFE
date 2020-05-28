@@ -24,6 +24,8 @@ public class User {
 	
 	
 	private String lastname;
+	
+	private String password;
 
 	
 	public User() {
@@ -118,6 +120,18 @@ public class User {
 	}
 
 
+
+	public String getPassword() {
+		return password;
+	}
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
 
 	
 	
