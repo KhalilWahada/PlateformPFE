@@ -206,4 +206,9 @@ public class DDSController {
 		soutenanceB.setDateSoutenance(soutenance.getDateSoutenance());
 		return soutenancerep.save(soutenanceB);
 	}	
+	////////////getsession
+	@GetMapping("/session/all")
+		public List<Session> listSession() {
+		return sessionrep.findAll();
+	}	
 	}
