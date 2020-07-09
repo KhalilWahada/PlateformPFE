@@ -16,7 +16,7 @@ public class User {
 	
 	private String code;
 	
-	private String Email;
+	private String email;
 	
 	private String CIN;
 	
@@ -47,7 +47,7 @@ public class User {
 	public User(String code, String email, String cIN, String name, String lastname) {
 		super();
 		this.code = code;
-		Email = email;
+		this.email = email;
 		CIN = cIN;
 		this.name = name;
 		this.lastname = lastname;
@@ -98,13 +98,13 @@ public class User {
 
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 
 
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 
 

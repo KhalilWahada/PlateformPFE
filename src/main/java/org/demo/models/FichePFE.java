@@ -30,11 +30,7 @@ public class FichePFE {
     @JoinColumn(name = "etudiant_id")
     private Etudiant etudiant;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "Technology_Fiche", 
-      joinColumns = @JoinColumn(name = "id_fiche", referencedColumnName = "idFiche"), 
-      inverseJoinColumns = @JoinColumn(name = "id_techno", 
-      referencedColumnName = "id"))
+	@ManyToMany(mappedBy = "fiches")
 	private List<Technologies> technologies;
 	@OneToMany(mappedBy = "fichef")
 	private List<Fonctionalite> fonctionalities;

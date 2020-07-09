@@ -1,7 +1,6 @@
 package org.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -9,22 +8,21 @@ import org.demo.models.AnnulationModifFiche;
 import org.demo.models.Convention;
 import org.demo.models.Etudiant;
 import org.demo.models.FichePFE;
+import org.demo.models.Fichetest;
 import org.demo.models.Fonctionalite;
 import org.demo.models.Problematique;
 import org.demo.models.Societe;
 import org.demo.models.Technologies;
 import org.demo.models.Test;
-import org.demo.models.User;
 import org.demo.repository.AnnulationModifFicheRepository;
 import org.demo.repository.ConventionRepository;
+import org.demo.repository.EncadrantSocieteRepository;
 import org.demo.repository.EtudiantRepository;
 import org.demo.repository.FichePFERepository;
 import org.demo.repository.FonctionaliteRepository;
 import org.demo.repository.ProblematiqueRepository;
 import org.demo.repository.SocieteRepository;
 import org.demo.repository.TechnologiesRepository;
-import org.demo.repository.UserRepository;
-import org.demo.security.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -62,6 +60,9 @@ public class EtudiantController {
 	private SocieteRepository socrep;
 	
 	@Autowired
+	private EncadrantSocieteRepository ensocrep;
+	
+	@Autowired
 	private TechnologiesRepository tecrep;
 	
 	@Autowired
@@ -70,9 +71,7 @@ public class EtudiantController {
 	@Autowired
 	private AnnulationModifFicheRepository amfrep;
 	
-	@Autowired
-	private UserRepository userrep;
-	
+
 	
 	
 	///////////////etudiant/////////////////////
@@ -143,6 +142,212 @@ public class EtudiantController {
 			ficherep.save(f);
 			return f;
 		}
+
+		@PostMapping("/savefichefull")
+		public Object saveFiched(@Valid @RequestBody Fichetest fiche) {			 
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();	   
+		    Etudiant et = etudiantrep.findByCode(auth.getName());	    
+		    fiche.getF().setEtudiant(et);    
+		    fiche.getF().setStatus("saved");   
+		    et.setFiche(fiche.getF());
+		    socrep.save(fiche.getSoc());
+		    fiche.getF().setSoc(fiche.getSoc());
+		    ensocrep.save(fiche.getEs());
+		    fiche.getF().setEsoc(fiche.getEs());
+		    ficherep.save(fiche.getF());
+		    for(Fonctionalite f:fiche.getFoncts()) {
+		    	f.setFichef(et.getFiche());
+		    	fonrep.save(f);
+		    }
+		    for(Problematique p:fiche.getProbs()) {
+		    	p.setFichep(et.getFiche());
+		    	prorep.save(p);
+		    }
+		    
+		    for(Technologies t:fiche.getTech()) {	    	 
+		    	t.setFiche(et.getFiche());	    	  
+		    	tecrep.save(t);
+		    	  	    }
+		   
+		    return et.getFiche();	
+		}
+		@PostMapping("/diposefichefull")
+		public Object saveFicheddispose(@Valid @RequestBody Fichetest fiche) {			 
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();	   
+	    Etudiant et = etudiantrep.findByCode(auth.getName());	    
+	    fiche.getF().setEtudiant(et);    
+	    fiche.getF().setStatus("diposed");   
+	    et.setFiche(fiche.getF());
+	    socrep.save(fiche.getSoc());
+	    fiche.getF().setSoc(fiche.getSoc());
+	    ensocrep.save(fiche.getEs());
+	    fiche.getF().setEsoc(fiche.getEs());
+	    ficherep.save(fiche.getF());
+	    for(Fonctionalite f:fiche.getFoncts()) {
+	    	f.setFichef(et.getFiche());
+	    	fonrep.save(f);
+	    }
+	    for(Problematique p:fiche.getProbs()) {
+	    	p.setFichep(et.getFiche());
+	    	prorep.save(p);
+	    }
+	    
+	    for(Technologies t:fiche.getTech()) {	    	 
+	    	t.setFiche(et.getFiche());	    	  
+	    	tecrep.save(t);
+	    	  	    }
+	   
+	    return et.getFiche();	
+		}
+		@PutMapping("/savefichefull2")
+		public Object saveFichedd(@Valid @RequestBody Fichetest fiche) {			 
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();	   
+	    Etudiant et = etudiantrep.findByCode(auth.getName());	    
+	  //  fiche.getF().setEtudiant(et);    
+	  //  fiche.getF().setStatus("deposit");   
+	  //  et.setFiche(fiche.getF());
+	    socrep.save(fiche.getSoc());
+	    fiche.getF().setSoc(fiche.getSoc());
+	  
+	    ensocrep.save(fiche.getEs());
+	    fiche.getF().setEsoc(fiche.getEs());
+	    
+	    ficherep.save(fiche.getF());
+	    for(Fonctionalite f:et.getFiche().getFonctionalities()) {
+	    	fonrep.delete(f);
+	    }
+	    for(Fonctionalite f:fiche.getFoncts()) {
+	    	f.setFichef(et.getFiche());
+	    	fonrep.save(f);
+	    }
+	    for(Problematique p:et.getFiche().getProblematiques()) {
+	    	prorep.delete(p);
+	    }
+	    for(Problematique p:fiche.getProbs()) {
+	    	p.setFichep(et.getFiche());
+	    	prorep.save(p);
+	    }
+	    for(Technologies ts:fiche.getTech()) {	  
+	    	//if(!ts.getFiches().contains(et.getFiche())) {
+	    	ts.setFiche(et.getFiche());	    	  
+	    	tecrep.save(ts);
+	    	}  // }
+	
+	    for(Technologies t:tecrep.findAll()) {	
+	    	if(fiche.getTech().contains(t)) {
+	    	System.out.println("test");
+	    	}
+	    	else if(t.getFiches().contains(et.getFiche())) 
+	    	{
+	    	System.out.println("test2");
+	    	t.getFiches().remove(et.getFiche());    	  
+	    	tecrep.save(t);
+	    	}
+	    	  	    }
+	/*for(Technologies ts:fiche.getTech()) {
+	    	if(ts.getFiches().contains(et.getFiche())) {
+	    		System.out.println("exist");
+	    	}
+	    	else {
+	    		ts.setFiche(et.getFiche());	    	  
+		    	tecrep.save(ts);
+	    	}
+	    	for(Technologies t:tecrep.findAll()) {
+	    		if(t!=ts)
+	    		{
+	    			t.getFiches().remove(et.getFiche());
+	    			tecrep.save(t);
+	    		}
+	    	}
+	    }
+*/
+	    return et.getFiche();	
+		}
+
+		@PutMapping("/deposefichefull2")
+		public Object saveFichedds(@Valid @RequestBody Fichetest fiche) {			 
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();	   
+	    Etudiant et = etudiantrep.findByCode(auth.getName());	    
+	  //  fiche.getF().setEtudiant(et);    
+	      fiche.getF().setStatus("deposed");   
+	  //  et.setFiche(fiche.getF());
+	    socrep.save(fiche.getSoc());
+	    fiche.getF().setSoc(fiche.getSoc());
+	  
+	    ensocrep.save(fiche.getEs());
+	    fiche.getF().setEsoc(fiche.getEs());
+	    
+	    ficherep.save(fiche.getF());
+	    for(Fonctionalite f:et.getFiche().getFonctionalities()) {
+	    	fonrep.delete(f);
+	    }
+	    for(Fonctionalite f:fiche.getFoncts()) {
+	    	f.setFichef(et.getFiche());
+	    	fonrep.save(f);
+	    }
+	    for(Problematique p:et.getFiche().getProblematiques()) {
+	    	prorep.delete(p);
+	    }
+	    for(Problematique p:fiche.getProbs()) {
+	    	p.setFichep(et.getFiche());
+	    	prorep.save(p);
+	    }
+	    
+	 
+	    for(Technologies ts:fiche.getTech()) {	  
+	    	//if(!ts.getFiches().contains(et.getFiche())) {
+	    	ts.setFiche(et.getFiche());	    	  
+	    	tecrep.save(ts);
+	    	}  // }
+	    
+	    for(Technologies t:tecrep.findAll()) {	
+	    	if(fiche.getTech().contains(t)) {
+	    		System.out.println("test");
+	    	}
+	    	else if(t.getFiches().contains(et.getFiche())) 
+	    	{
+	    		System.out.println("test2");
+	    	t.getFiches().remove(et.getFiche());    	  
+	    	tecrep.save(t);
+	    	}
+	    	  	    }
+	    
+	/*    for(Technologies ts:fiche.getTech()) {
+	    	if(ts.getFiches().contains(et.getFiche())) {
+	    		System.out.println("exist");
+	    	}
+	    	else {
+	    		ts.setFiche(et.getFiche());	    	  
+		    	tecrep.save(ts);
+	    	}
+	    	for(Technologies t:tecrep.findAll()) {
+	    		if(t!=ts)
+	    		{
+	    			t.getFiches().remove(et.getFiche());
+	    			tecrep.save(t);
+	    		}
+	    	}
+	    }*/
+	    
+	    return et.getFiche();	
+		}
+
+		@GetMapping("/getfichetest")
+		public Fichetest Fichetest() {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    Etudiant et = etudiantrep.findByCode(auth.getName());
+		    
+
+			Fichetest f = new Fichetest();
+			if(et.getFiche()!=null) {
+			f.setF(et.getFiche());
+			f.setEs(et.getFiche().getEsoc());
+			f.setFoncts(et.getFiche().getFonctionalities());
+			f.setProbs(et.getFiche().getProblematiques());
+			f.setSoc(et.getFiche().getSoc());
+			f.setTech(et.getFiche().getTechnologies());}
+			return f;
+		}	
 		
      ///////////////fonctionalite/////////////////////
 		
@@ -196,7 +401,10 @@ public class EtudiantController {
 		}
 	
 	///////////////technologies/////////////////////
-		
+		@GetMapping("/gettech")
+		public List<Technologies> get(){
+			return tecrep.findAll();
+		}
 		@PostMapping("/createtech")
 		public Object createtech(@Valid @RequestBody Technologies tec ) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -210,6 +418,21 @@ public class EtudiantController {
 	    f.setTechnologie(tec);
 	    ficherep.save(f);    
 	    return tec;	
+		}
+		@PostMapping("/testgg")
+		public void createtechdd(@Valid @RequestBody Technologies tec ) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    Etudiant et = etudiantrep.findByCode(auth.getName());
+		    
+		    Technologies t = tecrep.findById(1);
+	    FichePFE f= et.getFiche();
+	    //List<FichePFE> hh=new ArrayList<FichePFE>();
+	    //hh.add(f);
+	    //tec.setFiche(f);
+	    //tecrep.save(tec);
+	    f.setTechnologie(t);
+	    ficherep.save(f);    
+	    	
 		}
 		
 	///////////////convention/////////////////////
@@ -265,19 +488,7 @@ public class EtudiantController {
 		 
 	///////////////Auth/////////////////////
 		 
-		 @PostMapping("/signin")
-			public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-			 Optional<User> et = userrep.findByCode(loginRequest.getUsername());
-			 if(et.get().getCIN().equals(loginRequest.getPassword())) {
-				return ResponseEntity.ok(new User(et.get().getId(),
-												  et.get().getCode(),
-											   	  et.get().getName(),
-												  et.get().getLastname()));
-			}
-			 
-			 return ResponseEntity.status(400).body("wrong password");		
-		 
-		 }
+
 		 
 		 
 		 

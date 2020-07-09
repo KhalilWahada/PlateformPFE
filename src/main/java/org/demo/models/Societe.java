@@ -21,16 +21,16 @@ public class Societe {
 	@OneToMany(mappedBy = "soc")
 	private List<FichePFE> fiches;
 	
+	public Societe() {
+		super();
+	}
 	public Societe(String nomSociete) {
 		
 		super();
 		this.fiches=new ArrayList<FichePFE>();
 		this.nomSociete = nomSociete;
 	}
-	public Societe() {
-		super();
-		this.fiches=new ArrayList<FichePFE>();
-	}
+
 	public Societe(Long id, String nomSociete, String emailSociete, String adresseSociete, List<FichePFE> fiches) {
 		super();
 		this.id = id;
