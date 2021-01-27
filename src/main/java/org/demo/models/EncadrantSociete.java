@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class EncadrantSociete {
 	@Id
@@ -16,6 +18,7 @@ public class EncadrantSociete {
 	private String name;
 	private String last_name;
 	private String email;
+	 @JsonBackReference
 	@OneToMany(mappedBy = "esoc")
 	private List<FichePFE> fiches;
 	public EncadrantSociete() {

@@ -29,7 +29,15 @@ public class FichePFE {
 	@OneToOne
     @JoinColumn(name = "etudiant_id")
     private Etudiant etudiant;
+	@OneToMany(mappedBy = "fichehistory")
+	private List<History> history;
 	
+	public List<History> getHistory() {
+		return history;
+	}
+	public void setHistory(List<History> history) {
+		this.history = history;
+	}
 	@ManyToMany(mappedBy = "fiches")
 	private List<Technologies> technologies;
 	@OneToMany(mappedBy = "fichef")

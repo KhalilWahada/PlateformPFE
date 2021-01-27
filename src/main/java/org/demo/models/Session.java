@@ -17,6 +17,13 @@ public class Session {
 	
 	private String nom;
 	private Date dateDebut;
+	private Date dateFin ;
+	public Date getDateFin() {
+		return dateFin;
+	}
+	public void setDateFin(Date dateFin) {
+		this.dateFin = dateFin;
+	}
 	@OneToMany(mappedBy = "session")
 	private List<FichePFE> fiches;
 	public List<FichePFE> getFiches() {

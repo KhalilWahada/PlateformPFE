@@ -2,12 +2,20 @@ package org.demo.models;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.util.List;
 
 
 @Entity
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class Enseignant extends User{
 	
+	 @JsonBackReference
 	@OneToMany(mappedBy = "enseignant")
 	private List<FichePFE> fiches;
 	
@@ -16,7 +24,16 @@ public class Enseignant extends User{
 	private int numberEncadrementT;
 	
 	private boolean isactive ;
-	
+	@OneToMany(mappedBy = "emploiens")
+	private List<Emploidujour> emploidutemp;
+
+	public List<Emploidujour> getEmploidutemp() {
+		return emploidutemp;
+	}
+
+	public void setEmploidutemp(List<Emploidujour> emploidutemp) {
+		this.emploidutemp = emploidutemp;
+	}
 
 	public List<FichePFE> getFiches() {
 		return fiches;

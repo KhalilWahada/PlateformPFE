@@ -1,6 +1,7 @@
 package org.demo.models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +16,10 @@ public class Soutenance {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private Date dateSoutenance;
+	private Timestamp  dateSoutenance;
 	
 	private int duree;
-
+	
 	@OneToOne
     @JoinColumn(name = "fiche_id")
 	private FichePFE fichesoutenance;
@@ -39,13 +40,7 @@ public class Soutenance {
 		this.id = id;
 	}
 
-	public Date getDateSoutenance() {
-		return dateSoutenance;
-	}
-
-	public void setDateSoutenance(Date dateSoutenance) {
-		this.dateSoutenance = dateSoutenance;
-	}
+	
 
 	public int getDuree() {
 		return duree;
@@ -59,10 +54,18 @@ public class Soutenance {
 		super();
 	}
 
-	public Soutenance( Date dateSoutenance, int duree) {
+	public Soutenance( Timestamp  dateSoutenance, int duree) {
 		super();
 		this.dateSoutenance = dateSoutenance;
 		this.duree = duree;
+	}
+
+	public Timestamp getDateSoutenance() {
+		return dateSoutenance;
+	}
+
+	public void setDateSoutenance(Timestamp dateSoutenance) {
+		this.dateSoutenance = dateSoutenance;
 	}
 	
 	

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Societe {
 	@Id
@@ -18,6 +20,7 @@ public class Societe {
 	private String nomSociete;
 	private String emailSociete;
 	private String adresseSociete;
+	@JsonBackReference
 	@OneToMany(mappedBy = "soc")
 	private List<FichePFE> fiches;
 	
